@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="AsyncCorrelationHelper" targetNamespace="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncCorrelationHelper" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncCorrelationHelper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncCorrelationHelper" schemaLocation="xsd/AsyncCorrelationHelper.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="AsyncCorrelationHelperRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:portType name="AsyncCorrelationHelper">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:AsyncCorrelationHelperRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="AsyncCorrelationHelper">
+      <plnk:role name="AsyncCorrelationHelperProvider" portType="client:AsyncCorrelationHelper"/>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

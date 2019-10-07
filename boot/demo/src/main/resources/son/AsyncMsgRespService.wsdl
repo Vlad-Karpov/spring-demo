@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="AsyncMsgRespService" targetNamespace="http://oracle.com/sca/soapservice/UtilityComposites/SONProvTAV1/AsyncMsgRespService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:cor="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncSONProvTAImpl/correlationset" xmlns:inp1="urn:www.vtb24.ru:schemas:shared:interaction" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:tns="http://oracle.com/sca/soapservice/UtilityComposites/SONProvTAV1/AsyncMsgRespService">
+   <wsdl:types>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="urn:www.vtb24.ru:schemas:shared:interaction" schemaLocation="./Infrastructure/V1/InteractionTypes.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="requestMessage">
+      <wsdl:part name="part" element="inp1:Response"/>
+   </wsdl:message>
+   <wsdl:portType name="execute_ptt">
+      <wsdl:operation name="execute">
+         <wsdl:input message="tns:requestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

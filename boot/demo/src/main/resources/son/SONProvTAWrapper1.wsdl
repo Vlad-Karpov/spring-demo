@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="SONProvTA" targetNamespace="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1" xmlns:ns2="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncCorrelationHelper" xmlns:ns1="http://oracle.com/sca/soapservice/UtilityComposites/SONProvTAV1/AsyncMsgRespService" xmlns:ns="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns4="urn:www.vtb24.ru:schemas:shared:interaction" xmlns:cor="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncSONProvTAImpl/correlationset" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:tns="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+   <plnk:partnerLinkType name="AsyncSONProvTAImpl">
+      <plnk:role name="AsyncSONProvTA" portType="tns:AsyncSONProvTA"/>
+      <plnk:role name="AsyncSONProvTAResponse" portType="tns:AsyncSONProvTAResponse"/>
+   </plnk:partnerLinkType>
+   <vprop:propertyAlias propertyName="cor:aproperty" messageType="ns2:AsyncCorrelationHelperRequestMessage" part="payload">
+      <vprop:query>/ns2:process/ns2:input</vprop:query>
+   </vprop:propertyAlias>
+   <vprop:propertyAlias propertyName="cor:aproperty" xmlns:ns4="urn:www.vtb24.ru:schemas:shared:interaction" messageType="ns1:requestMessage" part="part">
+      <vprop:query>/ns4:Response/Bis-Data/transID</vprop:query>
+   </vprop:propertyAlias>
+   <wsdl:import namespace="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1" location="./SONProvTA.wsdl"/>
+   <wsdl:import namespace="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" location="./SendingMessageService.wsdl"/>
+   <wsdl:import namespace="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncSONProvTAImpl/correlationset" location="./AsyncSONProvTAImpl_properties.wsdl"/>
+   <wsdl:import namespace="http://xmlns.oracle.com/UtilityComposites/SONProvTAV1/AsyncCorrelationHelper" location="./AsyncCorrelationHelperWsdl.wsdl"/>
+   <wsdl:import namespace="http://oracle.com/sca/soapservice/UtilityComposites/SONProvTAV1/AsyncMsgRespService" location="./AsyncMsgRespService.wsdl"/>
+</wsdl:definitions>

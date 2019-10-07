@@ -1,0 +1,13 @@
+hello:
+  prefix: "Hi"
+  suffix: ":-)"
+server:
+  port: 8081
+spring:
+  webservices:
+    path: /ws
+    servlet:
+      init:
+        transformWsdlLocations: true
+  activemq:
+    in-memory: false

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="SendingMessageService" targetNamespace="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" xmlns:tns="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+   <wsdl:types>
+      <xsd:schema xmlns:ns0="http://v1.prov.son.soa.vtb24.tsconsulting.ru/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://v1.prov.son.soa.vtb24.tsconsulting.ru/types">
+         <xsd:complexType name="responseParameters">
+            <xsd:sequence>
+               <xsd:element name="messageText" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="messageType" type="xsd:string" minOccurs="0"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:complexType name="requestParameters">
+            <xsd:sequence>
+               <xsd:element name="correlationID" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="connectionFactoryName" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="messageText" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="messageType" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="queueName" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="replyQueueName" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="timeout" type="xsd:string" minOccurs="0"/>
+            </xsd:sequence>
+         </xsd:complexType>
+      </xsd:schema>
+      <xsd:schema targetNamespace="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" xmlns:tns="http://v1.prov.son.soa.vtb24.tsconsulting.ru/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://v1.prov.son.soa.vtb24.tsconsulting.ru/types">
+         <xsd:import namespace="http://v1.prov.son.soa.vtb24.tsconsulting.ru/types"/>
+         <xsd:complexType name="sendSyncMessage">
+            <xsd:sequence>
+               <xsd:element name="arg0" type="ns1:requestParameters"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:element name="sendSyncMessage" type="tns:sendSyncMessage"/>
+         <xsd:complexType name="sendSyncMessageResponse">
+            <xsd:sequence>
+               <xsd:element name="return" type="ns1:responseParameters"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:element name="sendSyncMessageResponse" type="tns:sendSyncMessageResponse"/>
+         <xsd:complexType name="sendAsyncMessage">
+            <xsd:sequence>
+               <xsd:element name="arg0" type="ns1:requestParameters"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:element name="sendAsyncMessage" type="tns:sendAsyncMessage"/>
+         <xsd:complexType name="sendAsyncMessageResponse">
+            <xsd:sequence>
+               <xsd:element name="return" type="xsd:string"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:element name="sendAsyncMessageResponse" type="tns:sendAsyncMessageResponse"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="sendSyncMessageInput">
+      <wsdl:part name="parameters" element="tns:sendSyncMessage"/>
+   </wsdl:message>
+   <wsdl:message name="sendSyncMessageOutput">
+      <wsdl:part name="parameters" element="tns:sendSyncMessageResponse"/>
+   </wsdl:message>
+   <wsdl:message name="sendAsyncMessageInput">
+      <wsdl:part name="parameters" element="tns:sendAsyncMessage"/>
+   </wsdl:message>
+   <wsdl:message name="sendAsyncMessageOutput">
+      <wsdl:part name="parameters" element="tns:sendAsyncMessageResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="SendingMessageService">
+      <wsdl:operation name="sendSyncMessage">
+         <wsdl:input message="tns:sendSyncMessageInput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl" ns1:Action=""/>
+         <wsdl:output message="tns:sendSyncMessageOutput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl" ns1:Action=""/>
+      </wsdl:operation>
+      <wsdl:operation name="sendAsyncMessage">
+         <wsdl:input message="tns:sendAsyncMessageInput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl" ns1:Action=""/>
+         <wsdl:output message="tns:sendAsyncMessageOutput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl" ns1:Action=""/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

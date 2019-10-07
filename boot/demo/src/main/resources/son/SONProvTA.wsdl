@@ -1,0 +1,142 @@
+<definitions
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:client="urn:www.vtb24.ru:schemas:shared:interaction"
+        xmlns:corecom="http://xmlns.oracle.com/EnterpriseObjects/Core/Common/V2"
+        xmlns:tns="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        name="SONProvTA"
+        targetNamespace="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1">
+
+    <types>
+        <xsd:schema xmlns="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1"
+                    xmlns:client="urn:www.vtb24.ru:schemas:shared:interaction"
+                    xmlns:corecom="http://xmlns.oracle.com/EnterpriseObjects/Core/Common/V2"
+                    xmlns:tns="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+                    elementFormDefault="qualified"
+                    targetNamespace="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1"
+                    version="1.00">
+            <xsd:import namespace="urn:www.vtb24.ru:schemas:shared:interaction"
+                        schemaLocation="./Infrastructure/V1/InteractionTypes.xsd"/>
+            <xsd:import namespace="http://xmlns.oracle.com/EnterpriseObjects/Core/Common/V2"
+                        schemaLocation="./Infrastructure/V1/Meta.xsd"/>
+            <xsd:complexType name="SONProvTADataAreaRequestType">
+                <xsd:sequence>
+                    <xsd:element ref="client:Request"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="SONProvTADataAreaResponseType">
+                <xsd:sequence>
+                    <xsd:element ref="client:Response"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="SONReqMsgType">
+                <xsd:annotation>
+                    <xsd:documentation>Запрос через шину Sonic</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexContent mixed="false">
+                    <xsd:extension base="corecom:EBMType">
+                        <xsd:sequence>
+                            <xsd:element name="DataArea" type="SONProvTADataAreaRequestType"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:complexType name="SONRespMsgType">
+                <xsd:annotation>
+                    <xsd:documentation>Ответное сообщение</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexContent mixed="false">
+                    <xsd:extension base="corecom:EBMType">
+                        <xsd:sequence>
+                            <xsd:element name="DataArea" type="SONProvTADataAreaResponseType"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <xsd:element name="SONRequestEBM" type="SONReqMsgType"/>
+            <xsd:element name="SONResponseEBM" type="SONRespMsgType"/>
+        </xsd:schema>
+    </types>
+
+    <message name="SyncSONRequestMsg">
+        <part element="tns:SONRequestEBM" name="SONRequestEBM"/>
+    </message>
+    <message name="SyncSONResponseMsg">
+        <part element="tns:SONResponseEBM" name="SONResponseEBM"/>
+    </message>
+    <message name="AsyncSONRequestMsg">
+        <part element="tns:SONRequestEBM" name="SONRequestEBM"/>
+    </message>
+    <message name="AsyncSONResponseMsg">
+        <part element="tns:SONResponseEBM" name="SONResponseEBM"/>
+    </message>
+    <message name="CommonFaultMessage">
+        <part element="corecom:Fault" name="part"/>
+    </message>
+
+    <portType name="SyncSONProvTA">
+        <operation name="syncSONRequest">
+            <input message="tns:SyncSONRequestMsg"/>
+            <output message="tns:SyncSONResponseMsg"/>
+            <fault message="tns:CommonFaultMessage" name="SONFault"/>
+        </operation>
+    </portType>
+    <portType name="AsyncSONProvTARequest">
+        <operation name="asyncSONRequest">
+            <input message="tns:AsyncSONRequestMsg"/>
+        </operation>
+    </portType>
+    <portType name="AsyncSONProvTAResponse">
+        <operation name="asyncSONResponse">
+            <input message="tns:AsyncSONResponseMsg"/>
+        </operation>
+    </portType>
+
+    <binding name="SONProvTA_SoapBinding_sync" type="tns:SyncSONProvTA">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="syncSONRequest">
+            <soap:operation soapAction="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1/sync/request"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </operation>
+    </binding>
+    <binding name="SONProvTA_SoapBinding_async_Request" type="tns:AsyncSONProvTARequest">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="asyncSONRequest">
+            <soap:operation soapAction="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1/async/request"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </operation>
+    </binding>
+    <binding name="SONProvTA_SoapBinding_async_Response" type="tns:AsyncSONProvTAResponse">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="asyncSONResponse">
+            <soap:operation soapAction="http://www.vtb24.ru/ApplicationConnectorServiceLibrary/SON/Providers/SONProvTA/V1/async/response"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </operation>
+    </binding>
+
+    <wsdl:service name="SONProvTAService">
+        <wsdl:documentation>SONProvTA service</wsdl:documentation>
+        <wsdl:port name="SONProvTA_Port_async_Request" binding="tns:SONProvTA_SoapBinding_async_Request">
+            <soap:address location="http://localhost:8081/ws/SONProvTAWrapper1"/>
+        </wsdl:port>
+        <wsdl:port name="SONProvTA_Port_async_Response" binding="tns:SONProvTA_SoapBinding_async_Response">
+            <soap:address location="http://localhost:8081/ws/SONProvTAWrapper1"/>
+        </wsdl:port>
+        <wsdl:port name="SONProvTA_Port_sync" binding="tns:SONProvTA_SoapBinding_sync">
+            <soap:address location="http://localhost:8081/ws/SONProvTAWrapper1"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</definitions>

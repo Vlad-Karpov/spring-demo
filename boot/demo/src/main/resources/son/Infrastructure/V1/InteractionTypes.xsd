@@ -1,0 +1,250 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:www.vtb24.ru:schemas:shared:interaction" targetNamespace="urn:www.vtb24.ru:schemas:shared:interaction">
+    <xs:complexType abstract="true" name="BusinessRequestAbstractType">
+        <xs:attribute name="Type" type="xs:string"/>
+        <xs:attribute name="ResultCode" type="xs:int"/>
+        <xs:attribute name="ErrorString" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="BusinessResponseAbstactType">
+        <xs:attribute name="ResultCode" type="xs:int"/>
+        <xs:attribute name="ErrorString" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="AppDataWithRequestType">
+        <xs:annotation>
+            <xs:documentation>
+                This type is used if a specific business request is supplied in App-Data section
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="AppDataGlobalBaseType">
+                <xs:all maxOccurs="1" minOccurs="1">
+                    <xs:element minOccurs="0" name="Request" type="BusinessRequestAbstractType"/>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AppDataWithResponseType">
+        <xs:annotation>
+            <xs:documentation>
+                This type is used if a specific business response is supplied in App-Data section
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="AppDataGlobalBaseType">
+                <xs:all>
+                    <xs:element name="Response" type="BusinessResponseAbstactType"/>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AppDataGlobalBaseType">
+        <xs:annotation>
+            <xs:documentation>This is a top level App-Data container type</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="ResultCode" type="xs:int"/>
+        <xs:attribute name="ErrorString" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="RequestBaseType">
+        <xs:all>
+            <xs:element name="Bis-Data" type="BisDataType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="App-Data" type="AppDataGlobalBaseType"/>
+        </xs:all>
+        <xs:attribute name="ToBranch" type="branchType"/>
+        <xs:attribute name="Type"/>
+    </xs:complexType>
+    <xs:complexType name="ResponseBaseType">
+        <xs:all>
+            <xs:element minOccurs="0" name="Bis-Data" type="BisDataType"/>
+            <xs:element minOccurs="0" name="App-Data" type="AppDataGlobalBaseType"/>
+        </xs:all>
+        <xs:attribute name="ResultCode" type="xs:int"/>
+        <xs:attribute name="ErrorString" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="BisDataType">
+        <xs:all maxOccurs="1" minOccurs="0">
+            <xs:element maxOccurs="1" minOccurs="0" name="FromBranch">
+                <xs:annotation>
+                    <xs:documentation>
+                        DEPRECATED. Номер филиала из которого посылается сообщение
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="branchType"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="1" name="BranchId">
+                <xs:annotation>
+                    <xs:documentation>Номер филиала системы инициатора запроса</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="branchType"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="Who">
+                <xs:annotation>
+                    <xs:documentation>
+                        Идентификатор пользователя в инициир системе, от кот послан запрос
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="XmlBroker" minOccurs="0">
+                <xs:complexType>
+                    <xs:attribute name="Value" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="LogicalStage">
+                <xs:annotation>
+                    <xs:documentation>Этап процесса, выполняемого в инициирующей системе</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="1" name="transID">
+                <xs:annotation>
+                    <xs:documentation>
+                        Уникальный ID запросов в одной транзакции, формируемый фронт.системой
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="Z-Type">
+                <xs:annotation>
+                    <xs:documentation>Тип запроса. Тоже, что и /Request/@Type</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="32"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="Z-Id">
+                <xs:annotation>
+                    <xs:documentation>
+                        Идентификатор процесса,уникальное значение, напр GUID
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="Z-Code">
+                <xs:annotation>
+                    <xs:documentation>Код бизнес-процесса</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="32"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="TargetSystemID">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор системы-получателя запроса</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="SystemIdType"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="SourceSystemID">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор системы-инициатора запроса</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="Value" type="SystemIdType"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="HeaderParams">
+                <xs:annotation>
+                    <xs:documentation>
+                        В данном блоке можно сохранить транспортные заголовки сообщения
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+    <xs:element name="Request" type="RequestBaseType">
+        <xs:annotation>
+            <xs:documentation>
+                This element is needed to preserve the correct element's name during serialization and deserialization of xml data.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="Response" type="ResponseBaseType">
+        <xs:annotation>
+            <xs:documentation>
+                This element is needed to preserve the correct element's name during serialization and deserialization of xml data.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:simpleType name="SystemIdType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BQ"/>
+            <xs:enumeration value="LTWF"/>
+            <xs:enumeration value="LTWVP"/>
+            <xs:enumeration value="LTWTP"/>
+            <xs:enumeration value="CIF"/>
+            <xs:enumeration value="PROF"/>
+            <xs:enumeration value="DV"/>
+            <xs:enumeration value="TB"/>
+            <xs:enumeration value="IVR"/>
+            <xs:enumeration value="BARCODE"/>
+            <xs:enumeration value="CDISP"/>
+            <xs:enumeration value="XKAI"/>
+            <xs:enumeration value="OWA"/>
+            <xs:enumeration value="EXP"/>
+            <xs:enumeration value="GP"/>
+            <xs:enumeration value="NBKI"/>
+            <xs:enumeration value="EIO"/>
+            <xs:enumeration value="HERMES"/>
+            <xs:enumeration value="BKO"/>
+            <xs:enumeration value="FSSP"/>
+            <xs:enumeration value="1CL"/>
+            <xs:enumeration value="SBL"/>
+            <xs:enumeration value="ZFR"/>
+            <xs:enumeration value="VERISO"/>
+            <xs:enumeration value="SAP"/>
+            <xs:enumeration value="JIRA"/>
+            <xs:enumeration value="AC"/>
+            <xs:enumeration value="SBPM"/>
+            <xs:enumeration value="OCTOPUS"/>
+            <xs:enumeration value="ACH"/>
+            <xs:enumeration value="PFR"/>
+            <xs:enumeration value="NPF"/>
+            <xs:enumeration value="CS"/>
+            <xs:enumeration value="TRD"/>
+            <xs:enumeration value="NBSM"/>
+            <xs:enumeration value="SCN"/>
+            <xs:enumeration value="WAY4"/>
+            <xs:enumeration value="CPP"/>
+            <xs:enumeration value="EDM"/>
+            <xs:enumeration value="OLO"/>
+            <xs:enumeration value="OLB"/>
+            <xs:enumeration value="RS"/>
+            <xs:enumeration value="TS"/>
+            <xs:enumeration value="AD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="branchType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{5}"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
